@@ -5,6 +5,7 @@ import z from "zod";
 let userService = new UserService();
 export class AuthController {
     async register(req: Request, res: Response) {
+        
         try {
             const parsedData = CreateUserDTO.safeParse(req.body); // validate request body
             if (!parsedData.success) { // validation failed
@@ -17,7 +18,7 @@ export class AuthController {
             return res.status(201).json(
                 { success: true, message: "User Created", data: newUser }
             );
-            
+
         } catch (error: Error | any) { // exception handling
             return res.status(error.statusCode ?? 500).json(
                 { success: false, message: error.message || "Internal Server Error" }
