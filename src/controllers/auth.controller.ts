@@ -17,6 +17,7 @@ export class AuthController {
             return res.status(201).json(
                 { success: true, message: "User Created", data: newUser }
             );
+            
         } catch (error: Error | any) { // exception handling
             return res.status(error.statusCode ?? 500).json(
                 { success: false, message: error.message || "Internal Server Error" }
