@@ -9,7 +9,6 @@ let userRepository = new UserRepository();
 
 export class UserService {
     async createUser(data: CreateUserDTO){
-        // business logic before creating user
         const emailCheck = await userRepository.getUserByEmail(data.email);
         if(emailCheck){
             throw new HttpError(403, "Email already in use");
@@ -18,11 +17,9 @@ export class UserService {
         if(usernameCheck){
             throw new HttpError(403, "Username already in use");
         }
-        // hash password
-        const hashedPassword = await bcryptjs.hash(data.password, 10); // 10 - complexity
+        const hashedPassword = await bcryptjs.hash(data.password, 10); 
         data.password = hashedPassword;
 
-        // create user
         const newUser = await userRepository.createUser(data);
         return newUser;
     }
@@ -32,14 +29,11 @@ export class UserService {
         if(!user){
             throw new HttpError(404, "User not found");
         }
-        // compare password
         const validPassword = await bcryptjs.compare(data.password, user.password);
-        // plaintext, hashed
         if(!validPassword){
             throw new HttpError(401, "Invalid credentials");
         }
-        // generate jwt
-        const payload = { // user identifier
+        const payload = { 
             id: user._id,
             email: user.email,
             username: user.username,
@@ -47,7 +41,7 @@ export class UserService {
             lastName: user.lastName,
             role: user.role
         }
-        const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '30d' }); // 30 days
+        const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '30d' });
         return { token, user }
     }
 }
