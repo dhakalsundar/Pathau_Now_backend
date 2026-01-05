@@ -9,7 +9,6 @@ const app: Application = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Lightweight CORS middleware to avoid external dependency during development
 app.use((req: Request, res: Response, next) => {
     const origin = process.env.FRONTEND_URL || '*';
     res.header('Access-Control-Allow-Origin', origin);
