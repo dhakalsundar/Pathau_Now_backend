@@ -1,7 +1,6 @@
 import { UserModel, IUser } from "../models/user.model";
 export interface IUserRepository {
     getUserByEmail(email: string): Promise<IUser | null>;
-    getUserByUsername(username: string): Promise<IUser | null>;
    
     createUser(userData: Partial<IUser>): Promise<IUser>;
     getUserById(id: string): Promise<IUser | null>;
@@ -18,10 +17,7 @@ export class UserRepository implements IUserRepository {
         const user = await UserModel.findOne({ "email": email })
         return user;
     }
-    async getUserByUsername(username: string): Promise<IUser | null> {
-        const user = await UserModel.findOne({ "username": username })
-        return user;
-    }
+
 
     async getUserById(id: string): Promise<IUser | null> {
         const user = await UserModel.findById(id);
