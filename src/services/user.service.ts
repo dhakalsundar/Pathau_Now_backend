@@ -13,10 +13,7 @@ export class UserService {
         if(emailCheck){
             throw new HttpError(403, "Email already in use");
         }
-        const usernameCheck = await userRepository.getUserByUsername(data.username);
-        if(usernameCheck){
-            throw new HttpError(403, "Username already in use");
-        }
+      
         const hashedPassword = await bcryptjs.hash(data.password, 10); 
         data.password = hashedPassword;
 
@@ -36,7 +33,6 @@ export class UserService {
         const payload = { 
             id: user._id,
             email: user.email,
-            username: user.username,
             firstName: user.firstName,
             lastName: user.lastName,
             role: user.role

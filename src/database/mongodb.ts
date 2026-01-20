@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
-import { MONGO_URL } from "../config";
+import dotenv from 'dotenv';
+dotenv.config();
 
 export async function connectDatabase(){
     try {
-        await mongoose.connect(MONGO_URL);
-        console.log("Connected to MongoDB");
+   await mongoose.connect(String( process.env.MONGODB_URI));       
+    console.log("Connected to MongoDB");
         return;
     } catch (error: any) {
         console.error("Database Error:", error.message || error);
